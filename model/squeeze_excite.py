@@ -1,5 +1,5 @@
 import torch.nn as nn
-from hard_activations import HSigmoid
+from model.hard_activations import HSigmoid
 
 
 class SqueezeExcite(nn.Module):
@@ -8,10 +8,10 @@ class SqueezeExcite(nn.Module):
 
         self.SE = nn.Sequential(
             nn.AdaptiveAvgPool2d(output_size=1),
-            nn.Conv2d(input_channels, out_channels=input_channels//squeeze, bias=False),
+            nn.Conv2d(input_channels, out_channels=input_channels//squeeze, kernel_size=1, stride=1, bias=False),
             nn.BatchNorm2d(input_channels//squeeze),
             nn.ReLU(inplace=True),
-            nn.Conv2d(input_channels//squeeze, input_channels, bias=False),
+            nn.Conv2d(input_channels//squeeze, input_channels, kernel_size=1, stride=1, bias=False),
             nn.BatchNorm2d(input_channels),
             HSigmoid(),
         )
