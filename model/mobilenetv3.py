@@ -43,7 +43,7 @@ class MobileNetV3(nn.Module):
         self.classifier = nn.Sequential(
             nn.Linear(960, 1280),
             HSwish(),
-            nn.Dropout(p=dropout_prob),
+            nn.Dropout(p=dropout_prob, inplace=True),
             nn.Linear(1280, num_classes),
             # you may add your own final-layer activation function here, based on your use case
         )
