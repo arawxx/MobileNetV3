@@ -10,6 +10,6 @@ It's the `MobileNetV2` with the addition of `Squeeze-and-Excite` in the residual
 
 ## MobileNetV2 main block structure:
 
-![MobileNetV2](image/MobileNetV2.png)
+![MobileNetV2](images/MobileNetV2.png)
 
 The link to the original article can be found [here](https://arxiv.org/abs/1905.02244v5).
