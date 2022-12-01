@@ -17,5 +17,5 @@ class SqueezeExcite(nn.Module):
         )
     
     def forward(self, x):
-        x *= self.SE(x)
+        x = x * self.SE(x)
         return x

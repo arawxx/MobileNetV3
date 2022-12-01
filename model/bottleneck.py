@@ -40,6 +40,6 @@ class Bottleneck(nn.Module):
         if self.downsample:
             residual = self.downsample(x)
 
-        output += residual
+        output = output + residual
 
         return output

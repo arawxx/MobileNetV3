@@ -5,7 +5,7 @@ from model.hard_activations import HSwish
 
 
 class MobileNetV3(nn.Module):
-    def __init__(self, input_channels, num_classes):
+    def __init__(self, input_channels, num_classes, dropout_prob = 0.2):
         super().__init__()
 
         self.initial_conv = nn.Sequential(
@@ -36,14 +36,15 @@ class MobileNetV3(nn.Module):
             nn.Conv2d(in_channels=160, out_channels=960, kernel_size=1, stride=1, bias=False),
             nn.BatchNorm2d(960),
             HSwish(),
-            nn.AvgPool2d(kernel_size=7, stride=1),
-            nn.Conv2d(in_channels=960, out_channels=1280, kernel_size=1),
-            HSwish(),
-            nn.Conv2d(in_channels=1280, out_channels=1000, kernel_size=1),
         )
 
+        self.pool = nn.AdaptiveAvgPool2d(output_size=1)
+
         self.classifier = nn.Sequential(
-            nn.Linear(1000, num_classes),
+            nn.Linear(960, 1280),
+            HSwish(),
+            nn.Dropout(p=dropout_prob),
+            nn.Linear(1280, num_classes),
             # you may add your own final-layer activation function here, based on your use case
         )
     
@@ -51,6 +52,7 @@ class MobileNetV3(nn.Module):
         x = self.initial_conv(x)
         x = self.bottlenecks(x)
         x = self.final_conv(x)
+        x = self.pool(x)
         x = torch.flatten(x, 1)
         x = self.classifier(x)
         return x
