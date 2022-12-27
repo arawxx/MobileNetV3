@@ -30,7 +30,7 @@ class Bottleneck(nn.Module):
         self.downsample = None if input_channels == output_channels and stride == 1 else nn.Sequential(
                 nn.Conv2d(input_channels, output_channels, kernel_size=1, stride=stride, bias=False),
                 nn.BatchNorm2d(output_channels),
-            )
+        )
 
 
     def forward(self, x):
