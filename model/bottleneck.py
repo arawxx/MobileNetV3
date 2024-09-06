@@ -3,7 +3,28 @@ from model.squeeze_excite import SqueezeExcite
 
 
 class Bottleneck(nn.Module):
-    def __init__(self, input_channels, kernel, stride, expansion, output_channels, activation):
+    def __init__(
+        self,
+        input_channels: int,
+        kernel: int,
+        stride: int,
+        expansion: int,
+        output_channels: int,
+        activation: nn.Module,
+        se: bool = False,
+    ) -> None:
+        """
+        MobileNetV3 bottleneck block.
+
+        Args:
+            input_channels (`int`): Number of input channels.
+            kernel (`int`): Convolution kernel size.
+            stride (`int`): Convolution stride.
+            expansion (`int`): Expansion size, indicating the middle layer's output channels.
+            output_channels (`int`): Number of final output channels.
+            activation (`nn.Module`): Activation function.
+            se (`bool`, optional): Whether to use Squeeze-and-Excitation. Defaults to False.
+        """
         super().__init__()
 
         self.bottleneck = nn.Sequential(
@@ -18,7 +39,7 @@ class Bottleneck(nn.Module):
             activation,
 
             # squeeze-and-excite
-            SqueezeExcite(expansion),
+            SqueezeExcite(expansion) if se else nn.Identity(),
             
             # point-wise convolution
             nn.Conv2d(expansion, output_channels, kernel_size=1, stride=1, bias=False),

@@ -3,7 +3,18 @@ from model.hard_activations import HSigmoid
 
 
 class SqueezeExcite(nn.Module):
-    def __init__(self, input_channels, squeeze = 4):
+    def __init__(
+        self,
+        input_channels: int,
+        squeeze: int = 4,
+    ) -> None:
+        """
+        Squeeze-and-Excitation block.
+
+        Args:
+            input_channels (`int`): Number of input channels.
+            squeeze (`int`, optional): Squeeze ratio. Defaults to 4.
+        """
         super().__init__()
 
         self.SE = nn.Sequential(
